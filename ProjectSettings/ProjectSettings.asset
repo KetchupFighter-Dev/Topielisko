@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: de7a0bce1dfd6834a93fb2e6a2f84b1a
+  productGUID: 371613d482dcbab4a8fa00ebeeb314c3
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -924,11 +924,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 52370c79-017d-4e04-b854-c2a795075c87
+  cloudProjectId: e23e3a0d-78e2-46a2-bf78-9fe428378b0d
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: Topielisko
-  organizationId: hendolfin
+  organizationId: patryk_kabata
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class playerMovement : MonoBehaviour
 {
@@ -22,9 +24,24 @@ public class playerMovement : MonoBehaviour
     public float dashDuration = 0.2f;   
     public float dashingTime = 1f;
 
+    [Header("Crouch")]
+    public float crouchSpeed = 2.5f;
+    public float crouchHeight = 0.5f;
+    public LayerMask ceilingLayer;
+
+    private bool isCrouching = false;
+    private Vector3 standingScale;
+
+
 
     private Rigidbody rb;
     private Vector3 normalScale;
+    private float horizontal;
+
+    [Header("UI")]
+    public Image dashCooldownImage;
+    private float dashCooldownTimer = 0f;
+
 
 
     void Awake()
@@ -36,68 +53,123 @@ public class playerMovement : MonoBehaviour
     void Start()
     {
         normalScale = transform.localScale;
+        standingScale = transform.localScale;
     }
 
     // Update is called once per frame
+    
+
     void Update()
     {
-        if (isDashing)
-        {
-            return;
-        }
+        horizontal = 0f;
 
         if (Keyboard.current.aKey.isPressed)
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-        
-        if (Keyboard.current.dKey.isPressed)
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
+            horizontal = -1f;
 
-        if ((Keyboard.current.wKey.wasPressedThisFrame) && (isGrounded))
+        if (Keyboard.current.dKey.isPressed)
+            horizontal = 1f;
+
+        if (Keyboard.current.wKey.wasPressedThisFrame && isGrounded)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
             isGrounded = false;
         }
 
 
+        if (Keyboard.current.sKey.isPressed)
+        {
+            Crouch();
+        }
+        else
+        {
+            TryStandUp();
+        }
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && canDash)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && canDash && !isCrouching)
         {
             StartCoroutine(Dash());
         }
 
-        if (Keyboard.current.sKey.isPressed)
+
+        if (!canDash)
         {
-            transform.localScale = new Vector3(
-                normalScale.x,
-                normalScale.y * 0.5f,
-                normalScale.z
-            );
-        }else
-        {
-            transform.localScale = normalScale;
+            dashCooldownTimer -= Time.deltaTime;
+            dashCooldownImage.fillAmount = dashCooldownTimer / dashCoolDown;
         }
+        else
+        {
+            dashCooldownImage.fillAmount = 0f;
+        }
+
+
     }
+
+    void FixedUpdate()
+    {
+        if (isDashing) return;
+
+        float currentSpeed = isCrouching ? crouchSpeed : speed;
+        rb.linearVelocity = new Vector3(horizontal * currentSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
+
+    }
+
 
     private IEnumerator Dash()
     {
         canDash = false;
+        dashCooldownTimer = dashCoolDown;
+
+
+        Vector3 dashDirection = new Vector3(horizontal, 0, 0);
+
+        if (dashDirection == Vector3.zero)
+            dashDirection = transform.right;
+
+        dashDirection.Normalize();
+
+        if (Physics.Raycast(transform.position, dashDirection, 0.7f))
+        {
+            canDash = true;
+            yield break;
+        }
+
         isDashing = true;
 
-        Vector3 dashDirection = moveInput;
-        rb.linearVelocity = dashDirection * dashForce;
-        // Trzeba orientacje ogarnπÊ  z move input najlepiej nowa metoda 
-        dashEndTime = Time.time + dashCoolDown;
+        rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
+        rb.AddForce(dashDirection * dashForce, ForceMode.VelocityChange);
 
         yield return new WaitForSeconds(dashDuration);
+
+        rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
         isDashing = false;
 
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;
-}
+    }
+    void Crouch()
+    {
+        if (isCrouching) return;
+
+        isCrouching = true;
+        transform.localScale = new Vector3(
+            standingScale.x,
+            crouchHeight,
+            standingScale.z
+        );
+    }
+
+    void TryStandUp()
+    {
+        if (!isCrouching) return;
+
+        // sprawd≈∫ czy jest sufit
+        if (Physics.Raycast(transform.position, Vector3.up, 1f, ceilingLayer))
+            return;
+
+        isCrouching = false;
+        transform.localScale = standingScale;
+    }
+
 
 
     void OnCollisionEnter(Collision collision)

@@ -4,19 +4,25 @@ using System.Collections;
 
 public class AttackPlayer : MonoBehaviour
 {
-    [SerializeField] private float meleeSPD = 1f; // attack cooldown in seconds
+    [SerializeField] private float meleeSPD = 1f; 
     [SerializeField] private float meleeDMG = 1f;
+
 
     private bool canAttack = true;
     public Animator animator;
 
+    void Start()
+    {
+        RendererOFF();
+    }
+
     void Update()
     {
-        // Trigger attack only once when clicked
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             if (canAttack)
             {
+                RendererON();
                 animator.SetTrigger("Attack");
                 canAttack = false;
                 StartCoroutine(MeleeCooldown());
@@ -24,19 +30,30 @@ public class AttackPlayer : MonoBehaviour
         }
     }
 
+    public void RendererOFF()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+    }
+
+
+    public void RendererON()
+    {
+        GetComponent<BoxCollider>().enabled = true;
+
+    }
+
     private IEnumerator MeleeCooldown()
     {
-        // Wait for cooldown duration
+        RendererOFF();
         yield return new WaitForSeconds(meleeSPD);
         canAttack = true;
-        Debug.Log("Attack ready again!");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            other.GetComponent<Enemy>()?.TakeDamage(meleeDMG);
+            other.gameObject.GetComponent<Enemy>()?.TakeDamage(meleeDMG);
             Debug.Log("Enemy Hit");
         }
     }

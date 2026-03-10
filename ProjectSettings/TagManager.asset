@@ -8,6 +8,7 @@ TagManager:
   - NextLVL
   - PlayerCube
   - PrevLVL
+  - Enemy
   layers:
   - Default
   - TransparentFX

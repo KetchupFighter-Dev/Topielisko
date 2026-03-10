@@ -15,17 +15,14 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    void Update()
-    {
-        HealthBarUpdate();
-    }
+
 
     public void HealthBarUpdate()
     {
         healthBar.fillAmount = currentHealth/maxHealth;
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         currentHealth -= amount;
         Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");

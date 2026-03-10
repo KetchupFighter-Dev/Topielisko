@@ -12,18 +12,4 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
             Destroy(gameObject);
     }
-
-    public void Attack()
-    {
-
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Attack();
-        }
-    }
-
 }

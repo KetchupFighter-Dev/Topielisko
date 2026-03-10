@@ -18,7 +18,6 @@ public class playerMovement : MonoBehaviour
     private Vector3 moveInput;
     private bool isDashing = false;
     private bool canDash = true;
-    private float dashEndTime = 0f;
     public float dashForce = 10f;
     public float dashCoolDown = 2.5f;
     public float dashDuration = 0.2f;   
@@ -65,6 +64,7 @@ public class playerMovement : MonoBehaviour
 
         if (Keyboard.current.aKey.isPressed)
             horizontal = -1f;
+            
 
         if (Keyboard.current.dKey.isPressed)
             horizontal = 1f;
@@ -101,7 +101,7 @@ public class playerMovement : MonoBehaviour
             dashCooldownImage.fillAmount = 0f;
         }
 
-
+        Rotate();
     }
 
     void FixedUpdate()
@@ -111,6 +111,22 @@ public class playerMovement : MonoBehaviour
         float currentSpeed = isCrouching ? crouchSpeed : speed;
         rb.linearVelocity = new Vector3(horizontal * currentSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
 
+    }
+
+    void Rotate()
+    {
+        float yRotation = transform.eulerAngles.y;
+
+
+        if ((Mathf.Approximately(yRotation, 0f)) && (Keyboard.current.dKey.wasPressedThisFrame))
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+
+        if ((Mathf.Approximately(yRotation, 180f)) && (Keyboard.current.aKey.wasPressedThisFrame))
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
     }
 
 
@@ -162,7 +178,6 @@ public class playerMovement : MonoBehaviour
     {
         if (!isCrouching) return;
 
-        // sprawdź czy jest sufit
         if (Physics.Raycast(transform.position, Vector3.up, 1f, ceilingLayer))
             return;
 

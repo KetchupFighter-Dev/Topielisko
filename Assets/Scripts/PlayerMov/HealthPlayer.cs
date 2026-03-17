@@ -9,13 +9,20 @@ public class Health : MonoBehaviour
 
     public float maxHealth = 100;
     public float currentHealth;
+    public GameObject player;  
 
     void Start()
     {
         currentHealth = maxHealth;
     }
 
-
+    void Update()
+    {
+        if (player != null)
+        {
+            HealthBarUpdate();
+        }
+    }
 
     public void HealthBarUpdate()
     {

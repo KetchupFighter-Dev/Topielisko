@@ -31,6 +31,11 @@ public class playerMovement : MonoBehaviour
     private bool isCrouching = false;
     private Vector3 standingScale;
 
+    [Header("Boost Multipliers")]
+    public float speedBoost = 1f;
+    public float jumpBoost = 1f;
+    public float dashBoost = 1f;
+    public float crouchBoost = 1f;
 
 
     private Rigidbody rb;
@@ -71,7 +76,7 @@ public class playerMovement : MonoBehaviour
 
         if (Keyboard.current.wKey.wasPressedThisFrame && isGrounded)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce * jumpBoost, rb.linearVelocity.z);
             isGrounded = false;
         }
 
@@ -108,7 +113,7 @@ public class playerMovement : MonoBehaviour
     {
         if (isDashing) return;
 
-        float currentSpeed = isCrouching ? crouchSpeed : speed;
+        float currentSpeed = (isCrouching ? crouchSpeed * crouchBoost : speed * speedBoost);
         rb.linearVelocity = new Vector3(horizontal * currentSpeed, rb.linearVelocity.y, rb.linearVelocity.z);
 
     }
@@ -152,7 +157,7 @@ public class playerMovement : MonoBehaviour
         isDashing = true;
 
         rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
-        rb.AddForce(dashDirection * dashForce, ForceMode.VelocityChange);
+        rb.AddForce(dashDirection * dashForce * dashBoost, ForceMode.VelocityChange);
 
         yield return new WaitForSeconds(dashDuration);
 

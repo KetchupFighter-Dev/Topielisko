@@ -9,6 +9,7 @@ TagManager:
   - PlayerCube
   - PrevLVL
   - Enemy
+  - Weapon
   layers:
   - Default
   - TransparentFX

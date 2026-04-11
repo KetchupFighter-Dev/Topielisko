@@ -12,4 +12,11 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
             Destroy(gameObject);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Weapon")
+        {
+            TakeDamage(10);
+        }
+    }
 }

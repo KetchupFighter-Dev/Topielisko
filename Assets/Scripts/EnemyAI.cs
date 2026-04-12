@@ -34,6 +34,7 @@ public class EnemyAI : MonoBehaviour
         attackLine.enabled = false;
     }
 
+
     private void Update()
     {
         float distance = Vector3.Distance(transform.position, player.position);
@@ -56,9 +57,21 @@ public class EnemyAI : MonoBehaviour
             Patrol();
     }
 
+    private void Flip(float directionX)
+    {
+        if (directionX > 0)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        else if (directionX < 0)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
     private void Patrol()
     {
         float step = patrolSpeed * Time.deltaTime;
+
+        Vector3 direction = (patrolPointA - transform.position).normalized;
+
+        Flip(direction.x); // 👈 zamiast RotateTowards
+
         transform.position = Vector3.MoveTowards(transform.position, patrolPointA, step);
 
         if (Vector3.Distance(transform.position, patrolPointA) < 0.1f)
@@ -72,6 +85,12 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         float step = chaseSpeed * Time.deltaTime;
+
+        Vector3 direction = (player.position - transform.position).normalized;
+
+        Flip(direction.x); // 👈 zamiast RotateTowards
+
+
         transform.position = Vector3.MoveTowards(transform.position, player.position, step);
     }
 

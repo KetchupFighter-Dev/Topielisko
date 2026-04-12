@@ -44,7 +44,9 @@ public class AttackPlayer : MonoBehaviour
 
     private IEnumerator MeleeCooldown()
     {
+        yield return new WaitForSeconds(0.1f); // moment trafienia
         RendererOFF();
+
         yield return new WaitForSeconds(meleeSPD);
         canAttack = true;
     }

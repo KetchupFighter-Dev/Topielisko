@@ -111,7 +111,7 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.6, y: 1.4, z: 5}
+  m_Size: {x: 1.6, y: 1.4, z: 2}
   m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &1790148652464345222
 MonoBehaviour:
@@ -261,8 +261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70137396db75898419af2519b241dcc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackPlayer
-  meleeSPD: 1
-  meleeDMG: 1
+  meleeSPD: 5
+  meleeDMG: 15
   animator: {fileID: 6281301901729388673}
 --- !u!1 &2359704607645278422
 GameObject:
@@ -462,8 +462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70137396db75898419af2519b241dcc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackPlayer
-  meleeSPD: 1
-  meleeDMG: 1
+  meleeSPD: 10
+  meleeDMG: 5
   animator: {fileID: 247452159975835462}
 --- !u!1 &4343685880221598023
 GameObject:
@@ -654,8 +654,8 @@ Transform:
   m_GameObject: {fileID: 4494253065178542524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 194.59, y: -3.27, z: -8.170423}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8814069241924607037}
@@ -720,10 +720,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee48b717647b72c4d8ac960adcb0aec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerMovement
-  speed: 5
-  jumpForce: 7
+  speed: 12
+  jumpForce: 12
   isGrounded: 1
-  dashForce: 10
+  dashForce: 25
   dashCoolDown: 2.5
   dashDuration: 0.2
   dashingTime: 1

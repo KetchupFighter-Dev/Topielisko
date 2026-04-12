@@ -47,7 +47,6 @@ public class PlayerCombat : MonoBehaviour
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // 🔥 lepiej obracać tylko punkt ataku
         if (attackPoint != null)
             attackPoint.rotation = Quaternion.Euler(0, 0, angle);
     }

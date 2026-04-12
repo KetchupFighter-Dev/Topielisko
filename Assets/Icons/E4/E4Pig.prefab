@@ -54,6 +54,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   player: {fileID: 0}
+  healthPot: 3
 --- !u!54 &4437610650012426178
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -93,7 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef5a72a81256d6458c2de67b49c49bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  health: 100
+  health: 35
+  providesNextLVL: 0
 --- !u!65 &3022723139298808157
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -113,7 +115,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 2, z: 5}
+  m_Size: {x: 3, y: 2, z: 3}
   m_Center: {x: -0.5, y: 0.5, z: 0}
 --- !u!114 &3628296821882761993
 MonoBehaviour:
@@ -128,14 +130,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   player: {fileID: 0}
-  patrolSpeed: 2
-  chaseSpeed: 4
-  sightRange: 5
-  attackRange: 5
+  patrolSpeed: 12
+  chaseSpeed: 15
+  sightRange: 13
+  attackRange: 12
   attackDelay: 2
   attackWarningTime: 0.8
   attackDuration: 0.5
-  Damage: 5
+  Damage: 8
   PlayerOBJ: {fileID: 4494253065178542524, guid: 2269792f20261e148b18bdc24d96399c, type: 3}
 --- !u!120 &6320968145573968922
 LineRenderer:

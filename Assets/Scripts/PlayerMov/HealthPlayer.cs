@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -10,6 +12,7 @@ public class Health : MonoBehaviour
     public float maxHealth = 100;
     public float currentHealth;
     public GameObject player;  
+    public int healthPot = 3;
 
     void Start()
     {
@@ -21,6 +24,14 @@ public class Health : MonoBehaviour
         if (player != null)
         {
             HealthBarUpdate();
+        }
+
+        if (Keyboard.current.hKey.wasPressedThisFrame)
+        {
+            if (healthPot != 0) { 
+                healthPot --;
+                currentHealth = maxHealth;
+            }
         }
     }
 
@@ -46,5 +57,8 @@ public class Health : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} died!");
         Destroy(gameObject);
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
     }
 }

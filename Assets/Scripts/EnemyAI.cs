@@ -10,11 +10,11 @@ public class EnemyAI : MonoBehaviour
     public float sightRange = 5f;
     public float attackRange = 1f;
     public float attackDelay = 2f;
-    public float attackWarningTime = 0.8f; // czas ostrzeżenia linii
-    public float attackDuration = 0.2f;    // czas samego ataku
+    public float attackWarningTime = 0.8f; 
+    public float attackDuration = 0.2f;   
     public float Damage = 10f;
     public GameObject PlayerOBJ;
-
+    private Rigidbody rb;
 
     private bool isChasing = false;
     private bool isAttacking = false;
@@ -27,6 +27,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+
         patrolPointA = transform.position;
         patrolPointB = transform.position + Vector3.right * 5f;
 
@@ -68,13 +70,19 @@ public class EnemyAI : MonoBehaviour
     {
         float step = patrolSpeed * Time.deltaTime;
 
-        Vector3 direction = (patrolPointA - transform.position).normalized;
+        Vector3 targetPosition = new Vector3(
+            patrolPointA.x,
+            transform.position.y,
+            transform.position.z
+        );
 
-        Flip(direction.x); // 👈 zamiast RotateTowards
+        Vector3 direction = (targetPosition - transform.position).normalized;
 
-        transform.position = Vector3.MoveTowards(transform.position, patrolPointA, step);
+        Flip(direction.x);
 
-        if (Vector3.Distance(transform.position, patrolPointA) < 0.1f)
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
             Vector3 temp = patrolPointA;
             patrolPointA = patrolPointB;
@@ -86,18 +94,27 @@ public class EnemyAI : MonoBehaviour
     {
         float step = chaseSpeed * Time.deltaTime;
 
-        Vector3 direction = (player.position - transform.position).normalized;
+        Vector3 targetPosition = new Vector3(
+            player.position.x,
+            transform.position.y, 
+            transform.position.z  
+        );
 
-        Flip(direction.x); // 👈 zamiast RotateTowards
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Flip(direction.x);
 
-
-        transform.position = Vector3.MoveTowards(transform.position, player.position, step);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
     }
-
     private IEnumerator AttackRoutine()
     {
         isAttacking = true;
         lastAttackTime = Time.time;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
 
         Vector3 attackStart = transform.position;
         Vector3 attackEnd = player.position;
@@ -108,7 +125,7 @@ public class EnemyAI : MonoBehaviour
 
         yield return new WaitForSeconds(attackWarningTime);
 
-        Vector3 center = (attackStart + attackEnd) / 2f; 
+        Vector3 center = (attackStart + attackEnd) / 2f;
         Vector3 size = new Vector3(attackRange * 2f, 2f, Vector3.Distance(attackStart, attackEnd));
         Quaternion orientation = Quaternion.LookRotation(attackEnd - attackStart);
 
@@ -118,14 +135,19 @@ public class EnemyAI : MonoBehaviour
             if (hit.transform == player)
             {
                 Debug.Log("Gracz trafiony!");
-                PlayerOBJ.gameObject.GetComponent<Health>()?.TakeDamage(Damage);
-
+                PlayerOBJ.GetComponent<Health>()?.TakeDamage(Damage);
             }
         }
 
         yield return new WaitForSeconds(attackDuration);
 
         attackLine.enabled = false;
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
+
         isAttacking = false;
     }
 

@@ -129,14 +129,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   player: {fileID: 0}
-  patrolSpeed: 2
-  chaseSpeed: 4
-  sightRange: 5
-  attackRange: 5
-  attackDelay: 2
-  attackWarningTime: 0.8
+  patrolSpeed: 20
+  chaseSpeed: 25
+  sightRange: 30
+  attackRange: 30
+  attackDelay: 4
+  attackWarningTime: 0.5
   attackDuration: 0.5
-  Damage: 5
+  Damage: 15
   PlayerOBJ: {fileID: 0}
 --- !u!120 &8368534957579672398
 LineRenderer:

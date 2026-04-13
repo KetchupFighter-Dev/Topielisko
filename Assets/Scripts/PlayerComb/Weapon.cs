@@ -3,12 +3,15 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public string weaponName;
-    public int baseDamage = 1;  // Podstawowe obra¿enia dla nieodkrytej broni
-    public int weaponDamage = 10; // Prawdziwe obra¿enia po odkryciu
+    public int baseDamage = 1;  
+    public int weaponDamage = 10; 
     public float attackSpeed = 1f;
 
+    public AudioSource audioSource;
+    public AudioClip attackSound;
+
     protected bool canAttack = true;
-    public bool found = false; // Czy broñ jest odkryta?
+    public bool found = false; 
 
     public virtual int GetDamage()
     {
@@ -30,9 +33,9 @@ public class Weapon : MonoBehaviour
         if (canAttack)
         {
             Debug.Log($"{weaponName} attacked with {weaponDamage} damage!");
-            // Tutaj mo¿esz dodaæ logikê animacji ataku
+            audioSource.PlayOneShot(attackSound);
             canAttack = false;
-            Invoke("ResetAttack", attackSpeed); // Umo¿liwia atak po up³ywie czasu
+            Invoke("ResetAttack", attackSpeed); 
         }
     }
 

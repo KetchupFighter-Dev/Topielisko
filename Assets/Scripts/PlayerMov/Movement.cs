@@ -46,6 +46,7 @@ public class playerMovement : MonoBehaviour
     public Image dashCooldownImage;
     private float dashCooldownTimer = 0f;
 
+    public Animator animator;
 
 
     void Awake()
@@ -68,16 +69,34 @@ public class playerMovement : MonoBehaviour
         horizontal = 0f;
 
         if (Keyboard.current.aKey.isPressed)
+        {
+            animator.SetTrigger("Walking");
             horizontal = -1f;
-            
+
+        }
+        else
+        {
+            animator.ResetTrigger("Walking");
+        }
+
 
         if (Keyboard.current.dKey.isPressed)
+        {
+            animator.SetTrigger("Walking");
             horizontal = 1f;
+        }
+        else
+        {
+            animator.ResetTrigger("Walking");
+        }
 
         if (Keyboard.current.wKey.wasPressedThisFrame && isGrounded)
         {
+            animator.SetTrigger("Jump");
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce * jumpBoost, rb.linearVelocity.z);
             isGrounded = false;
+            animator.ResetTrigger("Jump");
+
         }
 
 

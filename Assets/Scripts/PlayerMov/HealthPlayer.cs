@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class Health : MonoBehaviour
 {
     [Header("UI")]
     public Image healthBar;
+    public TextMeshProUGUI potionText;
 
     public float maxHealth = 100;
     public float currentHealth;
@@ -17,6 +19,8 @@ public class Health : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        HealthBarUpdate();
+        UpdatePotionUI();
     }
 
     void Update()
@@ -31,6 +35,8 @@ public class Health : MonoBehaviour
             if (healthPot != 0) { 
                 healthPot --;
                 currentHealth = maxHealth;
+                HealthBarUpdate();
+                UpdatePotionUI();
             }
         }
     }
@@ -38,6 +44,10 @@ public class Health : MonoBehaviour
     public void HealthBarUpdate()
     {
         healthBar.fillAmount = currentHealth/maxHealth;
+    }
+    void UpdatePotionUI()
+    {
+        potionText.text = "X " + healthPot;
     }
 
     public void TakeDamage(float amount)

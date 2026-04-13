@@ -38,6 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/E4P2.unity
     guid: 4026b44bbab2b4d2ca23946715676fb7
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: 303636a4578e5f04fba5cfdc24dc6203
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -408,7 +408,7 @@ BoxCollider:
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 2, z: 1.5}
+  m_Size: {x: 2, y: 2, z: 1.5}
   m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!111 &836617565
 Animation:
@@ -737,6 +737,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1526964690268444965, guid: 4b9a76fca7bef0046bc29cd538ebd8c4, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 78710a8ed95a0354d80beb15474e26f2, type: 2}
     - target: {fileID: 919132149155446097, guid: 4b9a76fca7bef0046bc29cd538ebd8c4, type: 3}
       propertyPath: m_Name
       value: GenericMale
